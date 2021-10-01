@@ -1,3 +1,12 @@
+const btn = document.querySelectorAll('button');
+btn.forEach(
+    function(btn) {
+        btn.addEventListener('click', () => {
+        console.log(btn);
+        });
+    })
+    
+
 function add(num1, num2) {
     return num1 + num2;
 };
