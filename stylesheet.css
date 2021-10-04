@@ -60,6 +60,11 @@ button:hover {
     transition-duration: 0.3s;
 }
 
+button:active {
+    transform: translateY(1px);
+    transition-duration: 0.3s;
+}
+
 #allClear {
     grid-column: 1 / 3;
     width: 126px;
