@@ -1,5 +1,20 @@
 const bottomDisplay = document.getElementById("displayBottom");
 const topDisplay = document.getElementById("displayTop");
+const allClear = document.querySelector("#allClear");
+const clear = document.querySelector("#clear");
+
+allClear.addEventListener('click', () => {
+    topDisplay.textContent = "";
+    bottomDisplay.textContent = "";
+})
+
+clear.addEventListener('click', () => {
+    if (topDisplay.textContent.slice(-1) == ' ') {
+        topDisplay.textContent = topDisplay.textContent.slice(0, -3);
+    } else {
+        topDisplay.textContent = topDisplay.textContent.slice(0, -1);
+    }
+})
 
 function displayNum() {
     let displayValue = "";
@@ -19,7 +34,13 @@ function displayNum() {
             operator.addEventListener('click', () => {
                 displayValue = topDisplay.textContent;
                 topDisplay.textContent += ` ${operator.textContent} `
-                currentOperator = operator.textContent;
+                if(operator.textContent === '+' || operator.textContent === '-') {
+                    currentOperator = operator.textContent;
+                } else if (operator.textContent === '÷') {
+                    currentOperator = '/';
+                } else {
+                    currentOperator = '*';
+                }
                 console.log(displayValue);
                 console.log(currentOperator);
             })
@@ -29,12 +50,20 @@ function displayNum() {
     const equal = document.querySelector("#equal");
     equal.addEventListener('click', () => {
         displayValue = topDisplay.textContent;
-        let numSplit = displayValue.split(' + ') || displayValue.split(' - ') || displayValue.split(' × ') || displayValue.split(' ÷ ');
-        console.log(numSplit);
-        let num1 = numSplit[0];
+        //let numSplit = displayValue.split(` ${currentOperator} `);
+        //let numSplit = displayValue.split(' + ') || displayValue.split(' - ') || displayValue.split(' × ') || displayValue.split(' ÷ ');
+        let equationArray = displayValue.split(' ');
+        console.log(equationArray);
+        for (i = 0; i < equationArray.length; i++) {
+            if (Number.isNaN(parseFloat(equationArray[i]))) {
+                equationArray.splice(i, 1)
+            }
+        }
+        console.log(equationArray);
+        let num1 = equationArray[0];
         let formatNum1 = parseFloat(num1);
         console.log(typeof formatNum1);
-        let num2 = numSplit[1];
+        let num2 = equationArray[1];
         let formatNum2 =  parseFloat(num2);
         console.log(typeof formatNum2);
         bottomDisplay.textContent = operate(formatNum1, formatNum2, currentOperator)
